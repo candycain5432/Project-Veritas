@@ -1,5 +1,104 @@
-response {
-    background-color: darkgray;
-    padding: 20px;
-    border: solid 1px black;
+/* Reset and basics */
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(39, 39, 39);
+  color: white;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+h1 {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Main container fills screen */
+#chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+  width: 50%;
+  margin: 0 auto;
+  border: solid 4px rgb(27, 0, 124);
+  border-radius: 10px;
+  background-color: black;
+  max-width: 700px;
+  font-size: 20px;
+}
+
+/* Scrollable chat box */
+#response {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  border-bottom: solid 3px rgb(48, 31, 109);
+  background-color: black;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Input bar */
+#input-area {
+  display: flex;
+  padding: 10px;
+  background-color: black;
+  border-top: solid 3px rgb(48, 31, 109);
+  border-radius: 0 0 10px 10px;
+  gap: 10px;
+}
+
+textarea#input {
+  flex-grow: 1;
+  resize: none;
+  border: solid 3px rgb(48, 31, 109);
+  border-radius: 10px;
+  background-color: black;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  background-color: rgb(48, 31, 109);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: rgb(78, 56, 156);
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  #chat-container {
+    width: 95vw;
+  }
+
+  #input-area {
+    flex-direction: column;
+  }
+
+  textarea#input {
+    width: 100%;
+    margin-right: 0;
+  }
+
+  button {
+    width: 100%;
+  }
 }
