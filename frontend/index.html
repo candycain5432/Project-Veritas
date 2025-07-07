@@ -16,7 +16,7 @@
       const responseBox = document.getElementById('response');
       responseBox.textContent = 'Thinking...';
 
-      const res = await fetch('http://localhost:3000/chat', {
+      const res = await fetch('https://project-veritas-backend.onrender.com/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message }),
