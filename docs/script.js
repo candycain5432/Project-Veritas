@@ -64,3 +64,17 @@ input.addEventListener('keydown', function (e) {
     sendMessage();
   }
 });
+
+// Create or reuse a sessionId
+let sessionId = localStorage.getItem('chatSessionId');
+if (!sessionId) {
+  sessionId = crypto.randomUUID();
+  localStorage.setItem('chatSessionId', sessionId);
+}
+
+// Then send it with the message:
+const res = await fetch('https://project-veritas-backend.onrender.com/chat', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ message, sessionId }),
+});

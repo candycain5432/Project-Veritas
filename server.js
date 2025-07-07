@@ -2,40 +2,23 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
+import { v4 as uuidv4 } from 'uuid';
 
 dotenv.config();
 
 const app = express();
-app.use(cors({
-  origin: '*', // Allows requests from anywhere
-}));
-
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-// In-memory chat log array (store last 50 messages)
-const chatLog = [];
+// Store conversations per user session (in memory)
+const sessions = {}; // { sessionId: [ { role: 'user'|'assistant', content: '...' } ] }
 
-app.post('/chat', async (req, res) => {
-  const { message } = req.body;
-
-  // Save the user message to chatLog
-  chatLog.push({ role: 'user', content: message, timestamp: new Date().toISOString() });
-
-  // Keep only last 50 messages
-  if (chatLog.length > 50) chatLog.shift();
-
-  try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [
-        {
-          role: 'system',
-          content: `
-            You are a faithful Catholic chatbot. 
+const SYSTEM_PROMPT = {
+  role: 'system',
+  content: `
+    You are a faithful Catholic chatbot. 
             Always answer with love, kindness, and clarity.
             Base your responses on official Catholic teaching, scripture, and tradition.
             When appropriate, include references to Bible verses or saints.
@@ -61,30 +44,51 @@ app.post('/chat', async (req, res) => {
             Remember the tone and context of the ongoing conversation. Avoid repeating yourself unless asked to clarify.
             Above all, act as a light of Christ — gentle, truthful, and full of hope.
             as of may 2025 there is a new pope by the name of pope leo the 14th, he is a faithful and loving pope who is dedicated to the teachings of the church and the people of god.
-          `
-        },
-        { role: 'user', content: message },
-      ],
+  `
+};
+
+app.post('/chat', async (req, res) => {
+  const { message, sessionId } = req.body;
+
+  if (!message || !sessionId) {
+    return res.status(400).json({ error: 'Message and sessionId are required.' });
+  }
+
+  // Initialize session if not exists
+  if (!sessions[sessionId]) {
+    sessions[sessionId] = [SYSTEM_PROMPT];
+  }
+
+  // Add user message to history
+  sessions[sessionId].push({ role: 'user', content: message });
+
+  // Keep only the last 20 interactions + system
+  const context = [SYSTEM_PROMPT, ...sessions[sessionId].slice(-20)];
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: context,
     });
 
-    // Save the bot reply to chatLog
-    chatLog.push({ role: 'bot', content: completion.choices[0].message.content, timestamp: new Date().toISOString() });
+    const reply = completion.choices[0].message.content;
+    sessions[sessionId].push({ role: 'assistant', content: reply });
 
-    res.json({ reply: completion.choices[0].message.content });
+    res.json({ reply });
   } catch (err) {
     console.error('OpenAI error:', err);
     res.status(500).json({ error: 'Failed to contact OpenAI' });
   }
 });
 
-// New endpoint to get chat logs
-app.get('/chat-log', (req, res) => {
-  res.json(chatLog);
+// Get conversation log (optional debugging)
+app.get('/chat-log/:sessionId', (req, res) => {
+  const { sessionId } = req.params;
+  res.json(sessions[sessionId] || []);
 });
 
+// Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Backend running at http://localhost:${PORT}`);
 });
-
-
