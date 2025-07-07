@@ -1,1 +1,11 @@
+services:
+  - type: web
+    name: project-veritas-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
 
