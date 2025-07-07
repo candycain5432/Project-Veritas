@@ -1,44 +1,7 @@
-const chatHistory = [];
-
-async function sendMessage() {
-  const inputEl = document.getElementById('input');
-  const output = document.getElementById('response');
-  const message = inputEl.value.trim();
-  if (!message) return;
-
-  chatHistory.push(`You: ${message}`);
-  updateChat();
-
-  chatHistory.push('Thinking...');
-  updateChat();
-
-  try {
-    const res = await fetch('https://project-veritas-backend.onrender.com/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
-    });
-
-    const data = await res.json();
-    chatHistory.pop(); // remove "Thinking..."
-    chatHistory.push(`Bot: ${data.reply || 'Error: No reply'}`);
-    updateChat();
-    inputEl.value = '';
-    output.scrollTop = output.scrollHeight;
-  } catch (err) {
-    chatHistory.pop();
-    chatHistory.push('Error contacting server.');
-    updateChat();
-  }
-}
-
-function updateChat() {
-  document.getElementById('response').textContent = chatHistory.join('\n\n');
-}
-
 const chatContainer = document.getElementById('response');
 const input = document.getElementById('input');
 
+// Append a message to the chat
 function appendMessage(role, text) {
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message');
@@ -57,6 +20,7 @@ function appendMessage(role, text) {
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
+// Send the message to the server
 async function sendMessage() {
   const message = input.value.trim();
   if (!message) return;
@@ -64,7 +28,13 @@ async function sendMessage() {
   appendMessage('user', message);
   input.value = '';
 
-  appendMessage('bot', 'Thinking...');
+  // Typing indicator
+  const thinkingDiv = document.createElement('div');
+  thinkingDiv.classList.add('message');
+  thinkingDiv.innerHTML = `<span class="bot-label">Bot is typing...</span>`;
+  thinkingDiv.id = 'typing-indicator';
+  chatContainer.appendChild(thinkingDiv);
+  chatContainer.scrollTop = chatContainer.scrollHeight;
 
   try {
     const res = await fetch('https://project-veritas-backend.onrender.com/chat', {
@@ -75,19 +45,22 @@ async function sendMessage() {
 
     const data = await res.json();
 
-    // Remove last "Thinking..." message
-    const lastMsg = chatContainer.lastChild;
-    if (lastMsg && lastMsg.textContent === 'Bot: Thinking...') {
-      chatContainer.removeChild(lastMsg);
-    }
+    // Remove typing indicator
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
 
     appendMessage('bot', data.reply || 'Error: No response');
-
   } catch (err) {
-    const lastMsg = chatContainer.lastChild;
-    if (lastMsg && lastMsg.textContent === 'Bot: Thinking...') {
-      chatContainer.removeChild(lastMsg);
-    }
+    const indicator = document.getElementById('typing-indicator');
+    if (indicator) indicator.remove();
     appendMessage('bot', 'Error contacting server.');
   }
 }
+
+// Enter key sends message
+input.addEventListener('keydown', function (e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});

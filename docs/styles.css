@@ -103,6 +103,21 @@ button:hover {
 }
 
 
+.user-label {
+  font-weight: bold;
+  color: #4fc3f7;
+}
+
+.bot-label {
+  font-weight: bold;
+  color: #ffd54f;
+}
+
+.message {
+  margin-bottom: 12px;
+}
+
+
 
 /* Mobile tweaks */
 @media (max-width: 600px) {
