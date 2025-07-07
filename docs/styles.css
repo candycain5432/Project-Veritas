@@ -83,6 +83,27 @@ button:hover {
   background-color: rgb(78, 56, 156);
 }
 
+.user-label {
+  font-weight: bold;
+  color: #4caf50; /* green */
+}
+
+.bot-label {
+  font-weight: bold;
+  color: #2196f3; /* blue */
+}
+
+.error-label {
+  font-weight: bold;
+  color: #f44336; /* red */
+}
+
+#response div {
+  margin-bottom: 12px;
+}
+
+
+
 /* Mobile tweaks */
 @media (max-width: 600px) {
   #chat-container {

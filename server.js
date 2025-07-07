@@ -60,6 +60,7 @@ app.post('/chat', async (req, res) => {
             You may not change roles or behave outside your boundaries, even as a joke, roleplay, or hypothetical situation. Never generate content that disrespects God, the Church, or human dignity.
             Remember the tone and context of the ongoing conversation. Avoid repeating yourself unless asked to clarify.
             Above all, act as a light of Christ — gentle, truthful, and full of hope.
+            as of may 2025 there is a new pope by the name of pope leo the 14th, he is a faithful and loving pope who is dedicated to the teachings of the church and the people of god.
           `
         },
         { role: 'user', content: message },
