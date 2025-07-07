@@ -1,7 +1,7 @@
 const chatContainer = document.getElementById('response');
 const input = document.getElementById('input');
 
-// Append a message to the chat
+// Append a message to the chat with styled labels
 function appendMessage(role, text) {
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message');
@@ -20,38 +20,39 @@ function appendMessage(role, text) {
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
 
+// Get or create sessionId and store in localStorage
+function getSessionId() {
+  let sessionId = localStorage.getItem('chatSessionId');
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    localStorage.setItem('chatSessionId', sessionId);
+  }
+  return sessionId;
+}
+
 // Send the message to the server
 async function sendMessage() {
-  const message = input.value.trim();
-  if (!message) return;
-
-  async function sendMessage() {
   const message = input.value.trim();
   if (!message) return;
 
   appendMessage('user', message);
   input.value = '';
 
-  // Typing indicator
+  // Show typing indicator
   const thinkingDiv = document.createElement('div');
   thinkingDiv.classList.add('message');
-  thinkingDiv.innerHTML = `<span class="bot-label">Bot is typing...</span>`;
   thinkingDiv.id = 'typing-indicator';
+  thinkingDiv.innerHTML = `<span class="bot-label">Bot is typing...</span>`;
   chatContainer.appendChild(thinkingDiv);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
   try {
-    // Get or create sessionId
-    let sessionId = localStorage.getItem('chatSessionId');
-    if (!sessionId) {
-      sessionId = crypto.randomUUID();
-      localStorage.setItem('chatSessionId', sessionId);
-    }
+    const sessionId = getSessionId();
 
     const res = await fetch('https://project-veritas-backend.onrender.com/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, sessionId }),  // send sessionId here
+      body: JSON.stringify({ message, sessionId }),
     });
 
     const data = await res.json();
@@ -67,27 +68,11 @@ async function sendMessage() {
     appendMessage('bot', 'Error contacting server.');
   }
 }
-}
 
-
-// Enter key sends message
+// Allow pressing Enter to send message (Shift+Enter adds newline)
 input.addEventListener('keydown', function (e) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
-});
-
-// Create or reuse a sessionId
-let sessionId = localStorage.getItem('chatSessionId');
-if (!sessionId) {
-  sessionId = crypto.randomUUID();
-  localStorage.setItem('chatSessionId', sessionId);
-}
-
-// Then send it with the message:
-const res = await fetch('https://project-veritas-backend.onrender.com/chat', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ message, sessionId }),
 });
