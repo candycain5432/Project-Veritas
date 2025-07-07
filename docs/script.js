@@ -25,6 +25,10 @@ async function sendMessage() {
   const message = input.value.trim();
   if (!message) return;
 
+  async function sendMessage() {
+  const message = input.value.trim();
+  if (!message) return;
+
   appendMessage('user', message);
   input.value = '';
 
@@ -37,10 +41,17 @@ async function sendMessage() {
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
   try {
+    // Get or create sessionId
+    let sessionId = localStorage.getItem('chatSessionId');
+    if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      localStorage.setItem('chatSessionId', sessionId);
+    }
+
     const res = await fetch('https://project-veritas-backend.onrender.com/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message }),
+      body: JSON.stringify({ message, sessionId }),  // send sessionId here
     });
 
     const data = await res.json();
@@ -56,6 +67,8 @@ async function sendMessage() {
     appendMessage('bot', 'Error contacting server.');
   }
 }
+}
+
 
 // Enter key sends message
 input.addEventListener('keydown', function (e) {
