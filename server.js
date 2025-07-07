@@ -7,7 +7,17 @@ import { v4 as uuidv4 } from 'uuid';
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*"); // Allow all origins
+  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS"); // Allow needed methods
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
+app.options('*', (req, res) => {
+  res.sendStatus(200); // Respond OK to preflight
+});
+
 app.use(express.json());
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
