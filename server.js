@@ -100,6 +100,11 @@ app.get('/chat-log/:sessionId', (req, res) => {
   res.json(sessions[sessionId] || []);
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
+});
+
+
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
