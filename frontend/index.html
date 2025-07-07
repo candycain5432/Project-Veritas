@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Project Veritas Chatbot</title>
+</head>
+<body>
+  <h1>Project Veritas - Catholic Chatbot</h1>
+  <textarea id="input" rows="4" cols="50" placeholder="Ask something..."></textarea><br>
+  <button onclick="sendMessage()">Send</button>
+  <pre id="response"></pre>
+
+  <script>
+    async function sendMessage() {
+      const message = document.getElementById('input').value;
+      const responseBox = document.getElementById('response');
+      responseBox.textContent = 'Thinking...';
+
+      const res = await fetch('http://localhost:3000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message }),
+      });
+
+      const data = await res.json();
+      responseBox.textContent = data.reply || 'Error: ' + JSON.stringify(data);
+    }
+  </script>
+</body>
+</html>
