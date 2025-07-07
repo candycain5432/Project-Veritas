@@ -9,27 +9,23 @@ import path from 'path';
 dotenv.config();
 
 const app = express();
-
-// Basic CORS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
-app.options('*', (req, res) => res.sendStatus(200));
-app.use(express.json());
 
-// Ensure logs directory exists
-const logsDir = path.join(process.cwd(), 'logs');
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir);
-}
+app.options('*', (req, res) => {
+  res.sendStatus(200);
+});
+
+app.use(express.json());
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const sessions = {};     // In-memory context for each session
-const chatLogs = {};     // In-memory full log per session (used for /chat-log route)
+const sessions = {};
+const chatLogs = {};
 
 const SYSTEM_PROMPT = {
   role: 'system',
@@ -71,12 +67,6 @@ const SYSTEM_PROMPT = {
   `
 };
 
-// Save a line to session file
-function appendToLogFile(sessionId, entry) {
-  const filePath = path.join(logsDir, `${sessionId}.txt`);
-  fs.appendFileSync(filePath, entry + '\n', 'utf8');
-}
-
 app.post('/chat', async (req, res) => {
   const { message, sessionId } = req.body;
 
@@ -84,18 +74,16 @@ app.post('/chat', async (req, res) => {
     return res.status(400).json({ error: 'Message and sessionId are required.' });
   }
 
-  // Init session if needed
   if (!sessions[sessionId]) {
     sessions[sessionId] = [SYSTEM_PROMPT];
-  }
-  if (!chatLogs[sessionId]) {
     chatLogs[sessionId] = [];
+    console.log(`🆕 New session started: ${sessionId}`);
   }
 
-  const timestamp = new Date().toISOString();
   sessions[sessionId].push({ role: 'user', content: message });
-  chatLogs[sessionId].push({ role: 'user', content: message, timestamp });
-  appendToLogFile(sessionId, `[${timestamp}] You: ${message}`);
+  chatLogs[sessionId].push({ role: 'user', content: message, timestamp: new Date().toISOString() });
+
+  console.log(`[${new Date().toISOString()}] ${sessionId} | User: ${message}`);
 
   const context = [SYSTEM_PROMPT, ...sessions[sessionId].slice(-20)];
 
@@ -107,31 +95,39 @@ app.post('/chat', async (req, res) => {
 
     const reply = completion.choices[0].message.content;
 
-    const botTimestamp = new Date().toISOString();
     sessions[sessionId].push({ role: 'assistant', content: reply });
-    chatLogs[sessionId].push({ role: 'bot', content: reply, timestamp: botTimestamp });
-    appendToLogFile(sessionId, `[${botTimestamp}] Bot: ${reply}`);
+    chatLogs[sessionId].push({ role: 'bot', content: reply, timestamp: new Date().toISOString() });
+
+    console.log(`[${new Date().toISOString()}] ${sessionId} | Bot: ${reply}`);
+
+    // Log to file (only works locally, not visible in Render's UI)
+    const logText = chatLogs[sessionId]
+      .map(entry => `[${entry.timestamp}] ${entry.role === 'user' ? 'User' : 'Bot'}: ${entry.content}`)
+      .join('\n');
+
+    const logDir = path.join(process.cwd(), 'logs');
+    if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
+
+    fs.writeFileSync(path.join(logDir, `${sessionId}.txt`), logText);
+    console.log(`📁 Saved log to logs/${sessionId}.txt`);
 
     res.json({ reply });
   } catch (err) {
-    console.error('OpenAI error:', err);
+    console.error('❌ OpenAI error:', err);
     res.status(500).json({ error: 'Failed to contact OpenAI' });
   }
 });
 
-// View chat log (in-memory version)
 app.get('/chat-log/:sessionId', (req, res) => {
   const { sessionId } = req.params;
   res.json(chatLogs[sessionId] || []);
 });
 
-// Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok' });
 });
 
-// Start
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+  console.log(`✅ Backend running at http://localhost:${PORT}`);
 });
