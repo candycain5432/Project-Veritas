@@ -117,12 +117,85 @@ button:hover {
   margin-bottom: 12px;
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
 
+.modal-content {
+  display: flex;
+  flex-direction: column; /* ✅ Ensures vertical layout */
+  position: relative;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto; /* ✅ Scroll vertically only */
+  overflow-x: hidden;
+  text-align: left;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  color: black;
+}
+
+.modal-content h2,
+.modal-content h1,
+.modal-content p {
+  margin-bottom: 10px;
+}
+
+.modal-content button {
+  align-self: flex-end; /* ✅ Keeps it top-right if you want */
+  position: sticky;
+  top: 0;
+  background-color: rgb(48, 31, 109);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  z-index: 10;
+}
+
+
+#viewTermsBtn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background-color: rgb(48, 31, 109);
+  border-radius: 5px;
+  padding: 6px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+  color: white;
+}
+
+#viewTermsBtn:hover {
+  background-color: rgb(78, 56, 156);
+}
+
+.title-tos {
+  color: rgb(48, 31, 109);
+}
 
 /* Mobile tweaks */
 @media (max-width: 600px) {
   #chat-container {
     width: 95vw;
+    padding-bottom: 40px; /* ✅ Make space for floating button */
   }
 
   #input-area {
@@ -137,4 +210,21 @@ button:hover {
   button {
     width: 100%;
   }
+
+  /* ✅ Move View Terms button to bottom-left on mobile */
+  #viewTermsBtn {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    right: auto;
+    top: auto;
+    transform: none;
+    font-size: 13px;
+    padding: 5px;
+    z-index: 1000;
+    width: 20%;
+    left: 320px;
+  }
 }
+
+

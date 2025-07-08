@@ -76,3 +76,25 @@ input.addEventListener('keydown', function (e) {
     sendMessage();
   }
 });
+
+
+// Check if user accepted terms
+window.addEventListener('DOMContentLoaded', () => {
+  const accepted = localStorage.getItem('acceptedTerms');
+  const modal = document.getElementById('termsModal');
+  if (!accepted) {
+    modal.style.display = 'flex';
+  } else {
+    modal.style.display = 'none';
+  }
+});
+
+// Handle "I Agree"
+function acceptTerms() {
+  localStorage.setItem('acceptedTerms', 'true');
+  document.getElementById('termsModal').style.display = 'none';
+}
+
+function showTerms() {
+  document.getElementById('termsModal').style.display = 'flex';
+}
