@@ -1,21 +1,11 @@
 const chatContainer = document.getElementById('response');
 const input = document.getElementById('input');
 
-// Append a message to the chat with styled labels
+// Append a message to the chat with styled bubbles
 function appendMessage(role, text) {
   const messageDiv = document.createElement('div');
-  messageDiv.classList.add('message');
-
-  const labelSpan = document.createElement('span');
-  labelSpan.textContent = role === 'user' ? 'You: ' : 'Bot: ';
-  labelSpan.classList.add(role === 'user' ? 'user-label' : 'bot-label');
-
-  const contentSpan = document.createElement('span');
-  contentSpan.textContent = text;
-
-  messageDiv.appendChild(labelSpan);
-  messageDiv.appendChild(contentSpan);
-
+  messageDiv.classList.add(role === 'user' ? 'user-message' : 'bot-message');
+  messageDiv.textContent = text;
   chatContainer.appendChild(messageDiv);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 }
@@ -40,9 +30,9 @@ async function sendMessage() {
 
   // Show typing indicator
   const thinkingDiv = document.createElement('div');
-  thinkingDiv.classList.add('message');
+  thinkingDiv.classList.add('bot-message');
   thinkingDiv.id = 'typing-indicator';
-  thinkingDiv.innerHTML = `<span class="bot-label">Bot is typing...</span>`;
+  thinkingDiv.textContent = 'Bot is typing...';
   chatContainer.appendChild(thinkingDiv);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
@@ -77,8 +67,7 @@ input.addEventListener('keydown', function (e) {
   }
 });
 
-
-// Check if user accepted terms
+// Terms of Service Modal
 window.addEventListener('DOMContentLoaded', () => {
   const accepted = localStorage.getItem('acceptedTerms');
   const modal = document.getElementById('termsModal');
@@ -89,7 +78,12 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Handle "I Agree"
+const timeSpan = document.createElement('div');
+timeSpan.className = 'timestamp';
+timeSpan.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+messageDiv.appendChild(timeSpan);
+
+
 function acceptTerms() {
   localStorage.setItem('acceptedTerms', 'true');
   document.getElementById('termsModal').style.display = 'none';
