@@ -54,7 +54,9 @@ h1 {
 
 
 .tyler {
-  color: lightblue;
+  background: linear-gradient(to right, purple, blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 
