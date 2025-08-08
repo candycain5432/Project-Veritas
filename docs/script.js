@@ -5,9 +5,17 @@ const input = document.getElementById('input');
 function appendMessage(role, text) {
   const messageDiv = document.createElement('div');
   messageDiv.classList.add(role === 'user' ? 'user-message' : 'bot-message');
-  messageDiv.textContent = text;
-  chatContainer.appendChild(messageDiv);
-  chatContainer.scrollTop = chatContainer.scrollHeight;
+
+  if (role === 'user') {
+    messageDiv.textContent = text;
+    chatContainer.appendChild(messageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  } else {
+    // For bot messages, append empty div for typing effect and return it
+    chatContainer.appendChild(messageDiv);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+    return messageDiv;
+  }
 }
 
 // Get or create sessionId and store in localStorage
@@ -18,6 +26,34 @@ function getSessionId() {
     localStorage.setItem('chatSessionId', sessionId);
   }
   return sessionId;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  const prompt = localStorage.getItem('initialPrompt');
+  if (prompt) {
+    localStorage.removeItem('initialPrompt');
+    input.value = prompt;
+    sendMessage();  // submit initial prompt if any
+  }
+});
+
+// Typing effect function
+function typeText(element, text, delay = 0.1, callback) {
+  let i = 0;
+  element.textContent = "";
+
+  function type() {
+    if (i < text.length) {
+      element.textContent += text.charAt(i);
+      i++;
+      chatContainer.scrollTop = chatContainer.scrollHeight;  // keep scrolled down while typing
+      setTimeout(type, delay);
+    } else if (callback) {
+      callback();
+    }
+  }
+
+  type();
 }
 
 // Send the message to the server
@@ -32,7 +68,7 @@ async function sendMessage() {
   const thinkingDiv = document.createElement('div');
   thinkingDiv.classList.add('bot-message');
   thinkingDiv.id = 'typing-indicator';
-  thinkingDiv.textContent = 'Bot is typing...';
+  thinkingDiv.textContent = 'Bot is Thinking...';
   chatContainer.appendChild(thinkingDiv);
   chatContainer.scrollTop = chatContainer.scrollHeight;
 
@@ -51,7 +87,10 @@ async function sendMessage() {
     const indicator = document.getElementById('typing-indicator');
     if (indicator) indicator.remove();
 
-    appendMessage('bot', data.reply || 'Error: No response');
+    // Append bot message with typing effect
+const botDiv = appendMessage('bot');
+typeText(botDiv, data.reply || 'Error: No response', 1);  // 5 ms delay per character
+
   } catch (err) {
     const indicator = document.getElementById('typing-indicator');
     if (indicator) indicator.remove();
@@ -67,7 +106,7 @@ input.addEventListener('keydown', function (e) {
   }
 });
 
-// Terms of Service Modal
+// Terms of Service Modal display on load
 window.addEventListener('DOMContentLoaded', () => {
   const accepted = localStorage.getItem('acceptedTerms');
   const modal = document.getElementById('termsModal');
@@ -78,17 +117,13 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-const timeSpan = document.createElement('div');
-timeSpan.className = 'timestamp';
-timeSpan.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-messageDiv.appendChild(timeSpan);
-
-
+// Accept terms function
 function acceptTerms() {
   localStorage.setItem('acceptedTerms', 'true');
   document.getElementById('termsModal').style.display = 'none';
 }
 
+// Show terms modal function
 function showTerms() {
   document.getElementById('termsModal').style.display = 'flex';
 }

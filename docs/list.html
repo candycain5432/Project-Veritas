@@ -1,118 +1,300 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body {
-                background-color: rgb(255, 255, 255);
-                color: black;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Ask Daily Faith - Catholic Chatbot</h1>
-        <H2>list of ideas</H2>
-        <ul>
-            <li>Lets play triva</li>
-            <li>Who made this</li>
-            <li>help me pray the rosary</li>
-            <li>What is the Catholic Church?</li>
-            <li>How do I pray?</li>
-            <li>What is the Bible?</li>
-            <li>Who is Jesus Christ?</li>
-            <li>What are the sacraments?</li>
-            <li>How can I grow in my faith?</li>
-            <li>What is the meaning of life according to Catholicism?</li>
-            <li>How do I confess my sins?</li>
-            <li>What is the role of Mary in the Catholic faith?</li>
-            <li>How can I help others in my community?</li>
-            <li>What is the significance of the Eucharist?</li>
-            <li>How do I find a local parish?</li>
-            <li>What are the Ten Commandments?</li>
-            <li>How can I learn more about Catholic teachings?</li>
-            <li>What is the significance of Lent?</li>
-            <li>How do I participate in Mass?</li>
-            <li>What is the role of the Pope?</li>
-            <li>How can I pray for others?</li>
-            <li>What is the significance of baptism?</li>
-            <li>How do I deal with doubts in my faith?</li>
-            <li>What is the Catholic view on salvation?</li>
-            <li>How can I find a spiritual mentor?</li>
-            <li>What is the significance of Good Friday?</li>
-            <li>How do I celebrate Christmas in a Catholic way?</li>
-            <li>What is the Catholic view on marriage?</li>
-            <li>How can I get involved in church activities?</li>
-            <li>What is the significance of the Holy Spirit?</li>
-            <li>Tell me a Bible story</li>
-            <li>What saint is celebrated today?</li>
-            <li>What is the Catechism?</li>
-            <li>What is the difference between a Catholic and a Christian?</li>
-            <li>How do I start reading the Bible?</li>
-            <li>Can you help me examine my conscience?</li>
-            <li>How do I make a morning offering?</li>
-            <li>Why do Catholics pray to saints?</li>
-            <li>What does the Church teach about forgiveness?</li>
-            <li>What are the gifts of the Holy Spirit?</li>
-            <li>Can you teach me the Hail Mary?</li>
-            <li>Why do Catholics go to confession?</li>
-            <li>Can you help me make a spiritual plan?</li>
-            <li>What is a novena?</li>
-            <li>Can you tell me a fun Catholic fact?</li>
-            <li>What are the mysteries of the Rosary?</li>
-            <li>What’s the difference between a bishop and a priest?</li>
-            <li>What is purgatory?</li>
-            <li>Why do Catholics honor Mary?</li>
-            <li>What’s a good Bible verse for courage?</li>
-            <li>Who are the Doctors of the Church?</li>
-            <li>Why do Catholics use holy water?</li>
-            <li>What is a patron saint?</li>
-            <li>Tell me a miracle story</li>
-            <li>What’s the Divine Mercy Chaplet?</li>
-            <li>What are the corporal works of mercy?</li>
-            <li>Can you explain the Mass parts?</li>
-            <li>Why do Catholics fast during Lent?</li>
-            <li>How do I prepare for communion?</li>
-            <li>What is Eucharistic Adoration?</li>
-            <li>What does Amen mean?</li>
-            <li>How do I become a saint?</li>
-            <li>Who are the 12 Apostles?</li>
-            <li>Can you teach me a Catholic prayer?</li>
-            <li>What are the 7 deadly sins?</li>
-            <li>What are the 7 virtues?</li>
-            <li>What is the Nicene Creed?</li>
-            <li>Why do we make the Sign of the Cross?</li>
-            <li>Can you tell me a parable of Jesus?</li>
-            <li>What’s the difference between a mortal and venial sin?</li>
-            <li>How do I do a daily examen?</li>
-            <li>Who is my guardian angel?</li>
-            <li>What does the Church teach about heaven?</li>
-            <li>Why is Sunday important?</li>
-            <li>What does Alleluia mean?</li>
-            <li>What are the Beatitudes?</li>
-            <li>What are some Catholic traditions?</li>
-            <li>Can you give me a Catholic quote?</li>
-            <li>What does the Church say about suffering?</li>
-            <li>Who is your favorite saint?</li>
-            <li>Can you help me write a prayer?</li>
-            <li>Why do we celebrate Easter?</li>
-            <li>Can you recommend a Catholic book?</li>
-            <li>What does Hosanna mean?</li>
-            <li>Why do Catholics honor relics?</li>
-            <li>What’s the difference between Old and New Testament?</li>
-            <li>What happens at a Catholic funeral?</li>
-            <li>How do I pray when I’m sad?</li>
-            <li>Can you give me a Bible verse about love?</li>
-            <li>Can you tell me the story of Pentecost?</li>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ask Daily Faith — Catholic Chatbot</title>
+  <style>
+    /* Minimal, modern dark theme + mountain background + transparent panels */
+    :root{
+      --bg:#0b1020;
+      --card: rgba(255,255,255,0.06);
+      --muted: rgba(255,255,255,0.6);
+      --accent1: #9b5cff; /* purple */
+      --accent2: #4cc0ff; /* blue */
+      --glass-border: rgba(255,255,255,0.08);
+      --radius: 14px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:#fff}
+    /* mountain background (SVG) */
+    body::before{
+      content:"";
+      position:fixed;inset:0;z-index:0;
+      background-image: radial-gradient(circle at 10% 20%, rgba(76,192,255,0.08), transparent 10%), radial-gradient(circle at 90% 80%, rgba(155,92,255,0.06), transparent 12%), linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.48));
+      backdrop-filter: blur(6px);
+    }
+    .mountain{
+      pointer-events:none;position:fixed;left:50%;bottom:-5%;transform:translateX(-50%);width:150%;height:50vh;z-index:0;opacity:0.14;background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="ffffff" stop-opacity="0.1"/><stop offset="1" stop-color="ffffff" stop-opacity="0.02"/></linearGradient></defs><path d="M0 300 L180 140 L260 200 L380 80 L520 220 L660 120 L820 260 L1000 100 L1200 300 L1200 400 L0 400 Z" fill="%23ffffff" opacity="0.06"/></svg>');
+      background-repeat:no-repeat;background-position:center bottom;background-size:cover;
+    }
 
-        
-        <script src="" async defer></script>
-    </body>
+    .wrap{position:relative;z-index:1;max-width:980px;margin:36px auto;padding:28px;}
+
+    header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+    .logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(135deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:700;color:#081224;box-shadow:0 6px 18px rgba(0,0,0,0.5)}
+    h1{font-size:20px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .card{background:var(--card);border:1px solid var(--glass-border);border-radius:var(--radius);padding:16px}
+
+    .controls{display:flex;gap:10px;margin-top:12px;align-items:center}
+    .search{flex:1;display:flex;gap:8px}
+    input[type=text]{flex:1;background:transparent;border:1px solid var(--glass-border);padding:10px 12px;border-radius:10px;color:inherit;outline:none}
+    button{background:linear-gradient(90deg,var(--accent1),var(--accent2));border:none;padding:10px 12px;border-radius:10px;color:#081224;font-weight:600;cursor:pointer}
+    .mutebtn{background:transparent;border:1px solid var(--glass-border);color:var(--muted);padding:8px 10px;border-radius:10px}
+
+    .list{margin-top:14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+    .item{padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:transform .12s, box-shadow .12s}
+    .item:hover{transform:translateY(-6px);box-shadow:0 8px 30px rgba(0,0,0,0.55)}
+    .item .q{font-weight:600;margin-bottom:6px}
+    .item .sub{font-size:13px;color:var(--muted)}
+
+    footer{margin-top:18px;color:var(--muted);font-size:13px;text-align:center}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);z-index:40}
+    .modal.open{display:flex}
+    .modal .panel{width:min(720px,94%);background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));border-radius:12px;padding:18px;border:1px solid var(--glass-border); opacity:99%;box-shadow:0 8px 30px rgba(0,0,0,0.55);backdrop-filter:blur(10px);position:relative}
+    .modal .panel h2{margin:0 0 8px 0}
+    .actions{display:flex;gap:8px;margin-top:12px}
+
+    @media (max-width:520px){.list{grid-template-columns:1fr}.logo{width:52px;height:52px}}
+  </style>
+</head>
+<body>
+  <div class="mountain" aria-hidden="true"></div>
+  <main class="wrap">
+    <header>
+      <div class="logo">DF</div>
+      <div>
+        <h1>Ask Daily Faith — Catholic Chatbot</h1>
+        <p class="lead">A handy list of questions & prompts to ask your Catholic AI. Click a card to copy the question or open the quick-ask modal.</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+        <div class="search">
+          <input id="filter" type="text" placeholder="Filter prompts (search keywords)" oninput="filterList()" />
+          <button id="randomBtn" title="Ask a random prompt" onclick="askRandom()">🎲 Random</button>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="mutebtn" onclick="copyAll()">Copy all</button>
+          <button class="mutebtn" onclick="downloadTxt()">Download .txt</button>
+        </div>
+      </div>
+
+      <div id="list" class="list" aria-live="polite"></div>
+
+      <footer>Tip: click any card to copy the prompt to clipboard. Use the Random button when you don't know what to ask.</footer>
+    </section>
+  </main>
+
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="panel">
+      <h2 id="modalTitle">Prompt</h2>
+      <p id="modalText" style="color:var(--muted)"></p>
+      <div class="actions">
+        <button onclick="sendToChat()">Ask the AI</button>
+        <button class="mutebtn" onclick="copyPrompt()">Copy</button>
+        <button class="mutebtn" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const prompts = [
+      "Lets play triva",
+      "Who made this",
+      "help me pray the rosary",
+      "What is the Catholic Church?",
+      "How do I pray?",
+      "What is the Bible?",
+      "Who is Jesus Christ?",
+      "What are the sacraments?",
+      "How can I grow in my faith?",
+      "What is the meaning of life according to Catholicism?",
+      "How do I confess my sins?",
+      "What is the role of Mary in the Catholic faith?",
+      "How can I help others in my community?",
+      "What is the significance of the Eucharist?",
+      "How do I find a local parish?",
+      "What are the Ten Commandments?",
+      "How can I learn more about Catholic teachings?",
+      "What is the significance of Lent?",
+      "How do I participate in Mass?",
+      "What is the role of the Pope?",
+      "How can I pray for others?",
+      "What is the significance of baptism?",
+      "How do I deal with doubts in my faith?",
+      "What is the Catholic view on salvation?",
+      "How can I find a spiritual mentor?",
+      "What is the significance of Good Friday?",
+      "How do I celebrate Christmas in a Catholic way?",
+      "What is the Catholic view on marriage?",
+      "How can I get involved in church activities?",
+      "What is the significance of the Holy Spirit?",
+      "Tell me a Bible story",
+      "What saint is celebrated today?",
+      "What is the Catechism?",
+      "What is the difference between a Catholic and a Christian?",
+      "How do I start reading the Bible?",
+      "Can you help me examine my conscience?",
+      "How do I make a morning offering?",
+      "Why do Catholics pray to saints?",
+      "What does the Church teach about forgiveness?",
+      "What are the gifts of the Holy Spirit?",
+      "Can you teach me the Hail Mary?",
+      "Why do Catholics go to confession?",
+      "Can you help me make a spiritual plan?",
+      "What is a novena?",
+      "Can you tell me a fun Catholic fact?",
+      "What are the mysteries of the Rosary?",
+      "What’s the difference between a bishop and a priest?",
+      "What is purgatory?",
+      "Why do Catholics honor Mary?",
+      "What’s a good Bible verse for courage?",
+      "Who are the Doctors of the Church?",
+      "Why do Catholics use holy water?",
+      "What is a patron saint?",
+      "Tell me a miracle story",
+      "What’s the Divine Mercy Chaplet?",
+      "What are the corporal works of mercy?",
+      "Can you explain the Mass parts?",
+      "Why do Catholics fast during Lent?",
+      "How do I prepare for communion?",
+      "What is Eucharistic Adoration?",
+      "What does Amen mean?",
+      "How do I become a saint?",
+      "Who are the 12 Apostles?",
+      "Can you teach me a Catholic prayer?",
+      "What are the 7 deadly sins?",
+      "What are the 7 virtues?",
+      "What is the Nicene Creed?",
+      "Why do we make the Sign of the Cross?",
+      "Can you tell me a parable of Jesus?",
+      "What’s the difference between a mortal and venial sin?",
+      "How do I do a daily examen?",
+      "Who is my guardian angel?",
+      "What does the Church teach about heaven?",
+      "Why is Sunday important?",
+      "What does Alleluia mean?",
+      "What are the Beatitudes?",
+      "What are some Catholic traditions?",
+      "Can you give me a Catholic quote?",
+      "What does the Church say about suffering?",
+      "Who is your favorite saint?",
+      "Can you help me write a prayer?",
+      "Why do we celebrate Easter?",
+      "Can you recommend a Catholic book?",
+      "What does Hosanna mean?",
+      "Why do Catholics honor relics?",
+      "What’s the difference between Old and New Testament?",
+      "What happens at a Catholic funeral?",
+      "How do I pray when I’m sad?",
+      "Can you give me a Bible verse about love?",
+      "Can you tell me the story of Pentecost?"
+    ];
+
+    const listEl = document.getElementById('list');
+    const modal = document.getElementById('modal');
+    const modalText = document.getElementById('modalText');
+    const modalTitle = document.getElementById('modalTitle');
+    const filterInput = document.getElementById('filter');
+
+    function renderList(items = prompts){
+      listEl.innerHTML = '';
+      items.forEach((p,i)=>{
+        const el = document.createElement('div');
+        el.className = 'item';
+        el.tabIndex = 0;
+        el.innerHTML = `<div class="q">${escapeHtml(p)}</div><div class="sub">Click to copy • Double-click to open</div>`;
+        el.addEventListener('click',()=>{ copyToClipboard(p); flash(el,'Copied!') });
+        el.addEventListener('dblclick',()=>{ openModal(p) });
+        el.addEventListener('keydown',(e)=>{ if(e.key==='Enter') openModal(p) });
+        listEl.appendChild(el);
+      });
+    }
+
+    function filterList(){
+      const q = filterInput.value.trim().toLowerCase();
+      if(!q){ renderList(); return }
+      const results = prompts.filter(p=>p.toLowerCase().includes(q));
+      renderList(results);
+    }
+
+    function copyToClipboard(text){
+      navigator.clipboard?.writeText(text).catch(()=>{});
+    }
+
+    function flash(el,msg){
+      const old = el.innerHTML;
+      el.innerHTML = `<div style=\"font-weight:700\">${msg}</div>`;
+      setTimeout(()=>el.innerHTML = old,900);
+    }
+
+    function openModal(p){
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      modalTitle.textContent = 'Ask — Quick preview';
+      modalText.textContent = p;
+      modal.dataset.current = p;
+    }
+
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      delete modal.dataset.current;
+    }
+
+    function copyPrompt(){
+      const p = modal.dataset.current; if(!p) return;
+      copyToClipboard(p);
+      alert('Copied to clipboard');
+    }
+
+    function sendToChat(){
+  const p = modal.dataset.current; 
+  if(!p) return;
+
+  // Save the prompt to localStorage for the chat page to pick up
+  localStorage.setItem('initialPrompt', p);
+
+  // Close modal first
+  closeModal();
+
+  // Redirect to chat page — change this to your actual chat page filename if different
+  window.location.href = 'index.html';
+}
+
+    function askRandom(){
+      const p = prompts[Math.floor(Math.random()*prompts.length)];
+      openModal(p);
+    }
+
+    function copyAll(){
+      copyToClipboard(prompts.join('\n'));
+      alert('All prompts copied to clipboard');
+    }
+
+    function downloadTxt(){
+      const blob = new Blob([prompts.join('\n')],{type:'text/plain'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'ask-daily-faith-prompts.txt'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    // Utility: escape HTML
+    function escapeHtml(s){ return s.replace(/[&<>\"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[c]) }
+
+    // Close modal on background click
+    modal.addEventListener('click',(e)=>{ if(e.target===modal) closeModal() });
+
+    // Initialize
+    renderList();
+
+    // Accessibility: allow ESC to close modal
+    window.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closeModal() });
+  </script>
+</body>
 </html>
