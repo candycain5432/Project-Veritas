@@ -87,7 +87,7 @@
 
       <div id="list" class="list" aria-live="polite"></div>
 
-      <footer>Tip: click any card to copy the prompt to clipboard. Use the Random button when you don't know what to ask.</footer>
+      <footer>Tip: click any card to open the options and ask the AI. Use the Random button when you don't know what to ask.</footer>
     </section>
   </main>
 
@@ -194,7 +194,7 @@
       "What happens at a Catholic funeral?",
       "How do I pray when I’m sad?",
       "Can you give me a Bible verse about love?",
-      "Can you tell me the story of Pentecost?"
+      "Can you tell me the story of Pentecost?",
     ];
 
     const listEl = document.getElementById('list');
@@ -209,9 +209,8 @@
         const el = document.createElement('div');
         el.className = 'item';
         el.tabIndex = 0;
-        el.innerHTML = `<div class="q">${escapeHtml(p)}</div><div class="sub">Click to copy • Double-click to open</div>`;
-        el.addEventListener('click',()=>{ copyToClipboard(p); flash(el,'Copied!') });
-        el.addEventListener('dblclick',()=>{ openModal(p) });
+        el.innerHTML = `<div class="q">${escapeHtml(p)}</div><div class="sub">Click for more options</div>`;
+        el.addEventListener('click',()=>{ openModal(p); });
         el.addEventListener('keydown',(e)=>{ if(e.key==='Enter') openModal(p) });
         listEl.appendChild(el);
       });
