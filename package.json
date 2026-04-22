@@ -7,10 +7,11 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
     "cors": "^2.8.5",
-    "openai": "^4.28.1",
     "dotenv": "^17.0.1",
-    "uuid": "^9.0.0"
+    "express": "^4.18.2",
+    "openai": "^4.28.1",
+    "uuid": "^9.0.0",
+    "web-push": "^3.6.7"
   }
 }
