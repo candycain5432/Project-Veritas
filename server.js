@@ -95,7 +95,6 @@ function getLiturgicalSeason(date, easter) {
   const dec25 = new Date(y, 11, 25), dow = dec25.getDay();
   const fourthSun = addDays(dec25, -(dow === 0 ? 7 : dow));
   const advent1 = addDays(fourthSun, -21);
-  const jan6 = new Date(y, 0, 6), jan6dow = jan6.getDay();
   const epiphany = new Date(y, 0, 13);
   if (date <= epiphany) return 'Christmas Season';
   if (date >= ash && date < easter) return 'Lent';
@@ -285,6 +284,17 @@ app.get('/chat-log/:sessionId', (req, res) => {
 });
 
 app.get('/health', (_req, res) => res.status(200).json({ status: 'ok' }));
+
+// Diagnostic — shows config status and subscription count (no sensitive data)
+app.get('/push-status', (_req, res) => {
+  const subs = loadSubs();
+  res.json({
+    vapid_configured: !!(process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY),
+    cron_secret_set:  !!process.env.CRON_SECRET,
+    subscriptions:    subs.length,
+    endpoints:        subs.map(s => s.endpoint.slice(0, 60) + '…')
+  });
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`✅ Backend running at http://localhost:${PORT}`));
