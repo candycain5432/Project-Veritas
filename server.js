@@ -285,6 +285,36 @@ app.get('/chat-log/:sessionId', (req, res) => {
 
 app.get('/health', (_req, res) => res.status(200).json({ status: 'ok' }));
 
+// ---- Daily Reflection ----
+app.get('/daily-reflection', async (_req, res) => {
+  const feast  = getTodaysFeast(new Date());
+  const context = feast.title
+    ? `Today is ${feast.title} during ${feast.season}.`
+    : `Today is a day in ${feast.season}.`;
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      max_tokens: 120,
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a faithful Catholic spiritual director. Write brief, warm, encouraging daily reflections grounded in Catholic tradition.'
+        },
+        {
+          role: 'user',
+          content: `${context} Write a 2–3 sentence spiritual reflection for Catholics today. Be warm and encouraging. Output only the reflection — no titles, labels, or headings.`
+        }
+      ]
+    });
+    const reflection = completion.choices[0].message.content.trim();
+    res.json({ reflection, feast: feast.title, season: feast.season });
+  } catch (err) {
+    console.error('❌ Reflection error:', err);
+    res.status(500).json({ error: 'Failed to generate reflection' });
+  }
+});
+
 // Diagnostic — shows config status and subscription count (no sensitive data)
 app.get('/push-status', (_req, res) => {
   const subs = loadSubs();
