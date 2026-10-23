@@ -6,7 +6,7 @@ import { upsertSubscription, updatePrefs, removeSubscription, tick, sendDaily, l
 import { parseISODate, toISODate } from './src/liturgy.js';
 
 const app = express();
-app.set('trust proxy', 1); // Render sits behind one proxy; needed for per-IP rate limits
+app.set('trust proxy', true); // behind Render + Cloudflare; see clientIp() in src/ratelimit.js
 app.use((_req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
