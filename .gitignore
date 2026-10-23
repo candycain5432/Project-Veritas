@@ -1,3 +1,9 @@
-
-# Ignore environment variables
+# Secrets — never commit
 .env
+
+# Dependencies
+node_modules/
+
+# Runtime data (Render's disk is ephemeral anyway)
+subscriptions.json
+logs/

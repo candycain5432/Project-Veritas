@@ -5,7 +5,17 @@ services:
     plan: free
     buildCommand: npm install
     startCommand: node server.js
+    healthCheckPath: /health
     envVars:
       - key: OPENAI_API_KEY
         sync: false
-
+      - key: OPENAI_MODEL
+        sync: false
+      - key: VAPID_PUBLIC_KEY
+        sync: false
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      - key: DEFAULT_TZ
+        value: America/New_York
